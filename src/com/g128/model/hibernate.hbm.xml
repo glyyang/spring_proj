@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+   <class name = "com.g128.model.Orders" table = "Amazon_Order">
+      
+      
+	      <id name = "id" type = "java.lang.Integer" column = "id">
+	         <generator class="native"/>
+	      </id>
+	      
+      <bag name = "paymentExecutionDetail" table="payment_detail" inverse="true" cascade="all" lazy="true" fetch="select">
+         <key column = "orders_id"/>
+         <one-to-many class="com.g128.model.PaymentExecutionDetailItem" not-found="ignore"/>
+      </bag>
+      
+      <bag name = "ord_items" table="amazon_order_item" inverse="true" cascade="all" lazy="true" fetch="select">
+         <key column = "ordered_id"/>
+         <one-to-many class="com.g128.model.OrderItem" not-found="ignore"/>
+      </bag>
+      
+      <property name = "amazonOrderId" column = "order_id" type = "string"/>
+      <property name = "sellerOrderId" column = "sid" type = "string"/>
+      <property name = "purchaseDateConverted" column = "purchase_date" type = "java.sql.Timestamp"/>
+      <property name = "lastUpdated" column = "last_updated" type = "java.sql.Timestamp"/>
+      <property name = "orderStatus" column = "order_status" type = "string"/>
+      <property name = "fulfillmentChannel" column = "fulfillment_type" type = "string"/>
+      <property name = "salesChannel" column = "sale_method" type = "string"/>
+      <property name = "orderChannel" column = "order_method" type = "string"/>
+      <property name = "shipServiceLevel" column = "shipment_strategy" type = "string"/>
+      <property name = "name" column = "shipment_name" type = "string"/>
+      <property name = "addressLine1" column = "shipment_addressline1" type = "string"/>
+      <property name = "addressLine2" column = "shipment_addressline2" type = "string"/>
+      <property name = "addressLine3" column = "shipment_addressline3" type = "string"/>
+      <property name = "city" column = "shipment_destination_city" type = "string"/>
+      <property name = "county" column = "shipment_destination_county" type = "string"/>
+      <property name = "district" column = "shipment_destination_district" type = "string"/>
+      <property name = "stateOrRegion" column = "shipment_destination_state" type = "string"/>
+      <property name = "postalCode" column = "shipment_destination_zipcode" type = "string"/>
+      <property name = "countryCode" column = "shipment_country_code" type = "string"/>
+      <property name = "phone" column = "phone_number" type = "string"/>
+      <property name = "addressType" column = "address_type" type = "string"/>
+      <property name = "orderCost" column = "total_cost" type = "string"/>
+      <property name = "orderCurrency" column = "currency" type = "string"/>
+      <property name = "numberOfItemsShipped" column = "items_shipped" type = "java.lang.Integer"/>
+      <property name = "numberOfItemsUnshipped" column = "items_pending_for_shipping" type = "java.lang.Integer"/>
+      <property name = "paymentMethod" column = "payment_method" type = "string"/>
+      <property name = "paymentMethodDetail" column = "payment_details" type = "string"/>
+      <property name = "marketplaceId" column = "marketplace_id" type = "string"/>
+      <property name = "buyerEmail" column = "buyer_email" type = "string"/>
+      <property name = "buyerName" column = "buyer_name" type = "string"/>
+      <property name = "buyerCounty" column = "buyer_county" type = "string"/>
+      <property name = "buyerTIString" column = "buyer_tax_info" type = "string"/>
+      <property name = "shipmentServiceLevelCategory" column = "shipment_category" type = "string"/>
+      <property name = "shippedByAmazonTFM" column = "is_amazon_fulfilled" type = "java.lang.Boolean"/>
+      <property name = "tfmShipmentStatus" column = "shipment_status" type = "string"/>
+      <property name = "cbaDisplayableShippingLabel" column = "shipment_label" type = "string"/>
+      <property name = "earliestShipment" column = "earliest_shipping_date" type = "java.sql.Timestamp"/>
+      <property name = "latestShipment" column = "latest_shipping_date" type = "java.sql.Timestamp"/>
+      <property name = "earliestDelivery" column = "earliest_delivery_date" type = "java.sql.Timestamp"/>
+      <property name = "latestDelivery" column = "latest_delivery_date" type = "java.sql.Timestamp"/>
+      <property name = "isBusinessOrder" column = "is_business_order" type = "java.lang.Boolean"/>
+      <property name = "purchaseOrderNumber" column = "purchase_order_number" type = "string"/>
+      <property name = "isPrime" column = "is_amazon_prime" type = "java.lang.Boolean"/>
+      <property name = "isPremiumOrder" column = "is_premium_order" type = "java.lang.Boolean"/>
+      <property name = "replacedOrderId" column = "replaced_order_id" type = "string"/>
+      <property name = "isReplacementOrder" column = "is_replacement_order" type = "java.lang.Boolean"/>
+      
+   </class>
+   
+   <class name="com.g128.model.PaymentExecutionDetailItem" table="Payment_Detail">
+   
+	<id name="id" type="java.lang.Integer" column="id">
+		<generator class="native"/>
+	</id>
+	
+	<many-to-one name="order_id" class="com.g128.model.Orders" fetch="select" property-ref="amazonOrderId">
+        <column name="orders_id"/>
+    </many-to-one>
+	
+	<property name="payment_id" type="string">
+        <column name="payment_id"/>
+    </property>
+    <property name="cost" type="string">
+        <column name="cost"/>
+    </property>
+    </class>
+    
+    <class name="com.g128.model.BuyerTaxInfo" table="Buyer_Tax_Info">
+   
+	<id name="id" type="java.lang.Integer" column="id">
+		<generator class="native"/>
+	</id>
+	
+	<bag name = "taxClassifications" table="tax_classification" inverse="true" cascade="all" lazy="true" fetch="select">
+         <key column = "buyer_tax_id"/>
+         <one-to-many class="com.g128.model.TaxClassification"  not-found="ignore"/>
+    </bag>
+	
+	<property name="companyLegalName" type="string">
+        <column name="company_name"/>
+    </property>
+    <property name="taxingRegion" type="string">
+        <column name="region"/>
+    </property>
+    </class>
+    
+    <class name="com.g128.model.TaxClassification" table="Buyer_Tax_Info">
+   
+	<id name="id" type="java.lang.Integer" column="id">
+		<generator class="native"/>
+	</id>
+	
+	<many-to-one name="txInfo" class="com.g128.model.BuyerTaxInfo" fetch="select">
+        <column name="buyer_tax_id"/>
+    </many-to-one>
+	
+	<property name="name" type="string">
+        <column name="name"/>
+    </property>
+    <property name="value" type="string">
+        <column name="classification_value"/>
+    </property>
+   </class>
+   
+   <class name="com.g128.model.OrderItem" table="Amazon_Order_Item">
+   		<id name="id" type="java.lang.Integer" column="id">
+   			<generator class="native"></generator>
+   		</id>
+   		
+   		<property name="asin" type="string">
+	        <column name="asin"/>
+	    </property>
+	    <property name="sellerSKU" type="string">
+	        <column name="sellerSKU"/>
+	    </property>
+	    <property name="orderItemId" type="string">
+	        <column name="item_id"/>
+	    </property>
+	    <property name="title" type="string">
+	        <column name="item_name"/>
+	    </property>
+	    <property name="quantityOrdered" type="java.lang.Integer">
+	        <column name="ordered_quantity"/>
+	    </property>
+	    <property name="quantityShipped" type="java.lang.Integer">
+	        <column name="shipped_quantity"/>
+	    </property>
+	    <property name="itemCount" type="java.lang.Integer">
+	        <column name="number_items"/>
+	    </property>
+	    <property name="isGift" type="java.lang.Boolean">
+	        <column name="is_gift"/>
+	    </property>
+	    <property name="giftMessageText" type="string">
+	        <column name="gift_msg"/>
+	    </property>
+	    <property name="giftWrapLevel" type="string">
+	        <column name="wrapper_lvl"/>
+	    </property>
+	    <property name="conditionNote" type="string">
+	        <column name="condition_note"/>
+	    </property>
+	    <property name="conditionId" type="string">
+	        <column name="condition_id"/>
+	    </property>
+	    <property name="conditionSubtypeId" type="string">
+	        <column name="condition_subtype_id"/>
+	    </property>
+	    <property name="scheduledDeliveryStartDate" type="string">
+	        <column name="sched_deliv_start"/>
+	    </property>
+	    <property name="scheduledDeliveryEndDate" type="string">
+	        <column name="sched_deliv_end"/>
+	    </property>
+	    <property name="priceDesignation" type="string">
+	        <column name="price_designation"/>
+	    </property>
+	    
+	    <component name="itemPrice" lazy="true" update="true" insert="true">
+	    	<property name="currencyCode" type="string">
+	    		<column name="item_price_currency"></column>
+	    	</property>
+	    	<property name="amount" type="string">
+	    		<column name="item_price_amount"></column>
+	    	</property>
+	    </component>
+	    
+	    <component name="shippingPrice" lazy="true" update="true" insert="true">
+	    	<property name="currencyCode" type="string">
+	    		<column name="shipping_price_currency"></column>
+	    	</property>
+	    	<property name="amount" type="string">
+	    		<column name="shipping_price_amount"></column>
+	    	</property>
+	    </component>
+	    <component name="itemTax" lazy="true" update="true" insert="true">
+	    	<property name="currencyCode" type="string">
+	    		<column name="item_tax_currency"></column>
+	    	</property>
+	    	<property name="amount" type="string">
+	    		<column name="item_tax_amount"></column>
+	    	</property>
+	    </component>
+	    <component name="shippingTax" lazy="true" update="true" insert="true">
+	    	<property name="currencyCode" type="string">
+	    		<column name="shipping_tax_currency"></column>
+	    	</property>
+	    	<property name="amount" type="string">
+	    		<column name="shipping_tax_amount"></column>
+	    	</property>
+	    </component>
+	    <component name="giftWrapTax" lazy="true" update="true" insert="true">
+	    	<property name="currencyCode" type="string">
+	    		<column name="gift_wrapping_tax_currency"></column>
+	    	</property>
+	    	<property name="amount" type="string">
+	    		<column name="gift_wrapping_tax_amount"></column>
+	    	</property>
+	    </component>
+	    <component name="shippingDiscount" lazy="true" update="true" insert="true">
+	    	<property name="currencyCode" type="string">
+	    		<column name="shipping_discount_currency"></column>
+	    	</property>
+	    	<property name="amount" type="string">
+	    		<column name="shipping_discount_amount"></column>
+	    	</property>
+	    </component>
+	    <component name="promotionDiscount" lazy="true" update="true" insert="true">
+	    	<property name="currencyCode" type="string">
+	    		<column name="promo_discount_currency"></column>
+	    	</property>
+	    	<property name="amount" type="string">
+	    		<column name="promo_discount_amount"></column>
+	    	</property>
+	    </component>
+	    <component name="codFee" lazy="true" update="true" insert="true">
+	    	<property name="currencyCode" type="string">
+	    		<column name="cod_fee_currency"></column>
+	    	</property>
+	    	<property name="amount" type="string">
+	    		<column name="cod_fee_amount"></column>
+	    	</property>
+	    </component>
+	    <component name="codFeeDiscount" lazy="true" update="true" insert="true">
+	    	<property name="currencyCode" type="string">
+	    		<column name="cod_fee_discount_currency"></column>
+	    	</property>
+	    	<property name="amount" type="string">
+	    		<column name="cod_fee_discount_amount"></column>
+	    	</property>
+	    </component>
+	    <component name="invoiceData" lazy="true" update="true" insert="true">
+	    	<property name="invoiceRequirement" type="string">
+	    		<column name="invoice_requirement"></column>
+	    	</property>
+	    	<property name="buyerSelectedInvoiceCategory" type="string">
+	    		<column name="invoice_category"></column>
+	    	</property>
+	    	<property name="invoiceTitle" type="string">
+	    		<column name="invoice_title"></column>
+	    	</property>
+	    	<property name="invoiceInformation" type="string">
+	    		<column name="invoice_info"></column>
+	    	</property>
+	    </component>
+	    <component name="buyerCustomizedInfo" lazy="true" update="true" insert="true">
+	    	<property name="customizedURL" type="string">
+	    		<column name="buyer_url"></column>
+	    	</property>
+	    </component>
+	    <component name="taxCollection" lazy="true" update="true" insert="true">
+	    	<property name="model" type="string">
+	    		<column name="tax_collection_model"></column>
+	    	</property>
+	    	<property name="responsibleParty" type="string">
+	    		<column name="tax_collection_party"></column>
+	    	</property>
+	    </component>
+	    <bag name="promotionIds" table="promotion_ids" inverse="true" lazy="true" cascade="all" fetch="select">
+	         <key column="promo_id"/>
+	         <element column="promotion_id" type="string"></element>
+	    </bag>
+	    <many-to-one name="ord" class="com.g128.model.Orders" fetch="select" property-ref="amazonOrderId">
+	        <column name="ordered_id"/>
+	    </many-to-one>
+	    <many-to-one name="pointsGranted" class="com.g128.model.PointsGrantedDetail" fetch="select">
+	        <column name="strategy_id"/>
+	    </many-to-one>
+   </class>
+   
+   <class name="com.g128.model.PointsGrantedDetail" table="Point_Strategies">
+   
+		<id name="id" type="java.lang.Integer" column="id">
+			<generator class="native"/>
+		</id>
+		
+		<bag name = "ord_items" table="amazon_order_item" inverse="true" cascade="all" lazy="true" fetch="select">
+	         <key column = "strategy_id"/>
+	         
+	         <one-to-many class="com.g128.model.PointsGrantedDetail" not-found="ignore"/>
+	    </bag>
+		
+		<property name="pointsNumber" type="java.lang.Integer">
+	        <column name="point_number"/>
+	    </property>
+	    
+	    <component name="pointsMonetaryValue" lazy="true" update="true" insert="true">
+	    	<property name="currencyCode" type="string">
+	    		<column name="currencyCode"></column>
+	    	</property>
+	    	<property name="amount" type="string">
+	    		<column name="amount"></column>
+	    	</property>
+	    </component>
+   </class>
+   
+   <class name="com.g128.model.logger" table="logger_info">
+   
+		<id name="id" type="java.lang.Integer" column="id">
+			<generator class="native"/>
+		</id> 
+		
+		<!--<id name="time" type="java.sql.Timestamp" column="time">
+			<generator class="native"/>
+		</id>-->
+		
+		<!-- <bag name = "rec" table="logger_record" inverse="true" cascade="all" lazy="true" fetch="select">
+	         <key column = "log_time" property-ref="time"/>
+	         
+	         <many-to-many class="OffsetRecords" not-found="ignore" entity-name="OffsetRecords" column="record_time" property-ref="timeIn"/>
+	    </bag> -->
+		
+		<property name="description" type="string">
+	        <column name="description"/>
+	    </property>
+	    
+	    <property name="time" type="java.sql.Timestamp">
+	        <column name="time"/>
+	    </property>
+	    <property name="assocTime" type="java.lang.Long">
+	        <column name="assocTime"/>
+	    </property>
+	    <property name="fetchingCount" type="java.lang.Long">
+	        <column name="fetchingCount"/>
+	    </property>
+	    <property name="differentialScore" type="java.lang.Double">
+	        <column name="differentialScore"/>
+	    </property>
+   </class>
+   
+   <class name="com.g128.model.OffsetRecords" table="log_offset">
+   
+		<id name="id" type="java.lang.Integer" column="id">
+			<generator class="native"/>
+		</id> 
+		
+		<!-- <id name="timeIn" type="java.sql.Timestamp" column="timeIn">
+			<generator class="native"/>
+		</id>-->
+		
+		<!-- <bag name = "log" table="logger_record" inverse="true" cascade="all" lazy="true" fetch="select">
+	         <key column = "record_time" property-ref="timeIn"/>
+	         
+	         <many-to-many class="logger" not-found="ignore" entity-name="logger" column="log_time" property-ref="time"/>
+	    </bag>-->
+		
+		<property name="description" type="string">
+	        <column name="description"/>
+	    </property>
+	    
+	    <property name="value" type="java.lang.Long">
+	        <column name="value"/>
+	    </property>
+	    
+	    <property name="timeIn" type="java.sql.Timestamp" column="timeIn"></property>
+   </class>
+   
+   <class name="com.g128.model.Inventory" table="inventory">
+   		<id name="id" type="java.lang.Long" column="id">
+   			<generator class="native"></generator>
+   		</id>   		
+   		
+   		<property name="itemCode" type="string">
+   			<column name="item_code" unique="true"></column>
+   		</property>
+   		
+   		<component name="item" insert="true" lazy="true" update="true">
+   			<property name="description" type="string">
+   				<column name="description"></column>
+   			</property>
+   			<property name="numberLeft" type="java.lang.Long">
+   				<column name="numberLeft"></column>
+   			</property>
+   			<component name="unitPrice" lazy="true">
+   				<property name="amount" type="string">
+   					<column name="unit_cost"></column>
+   				</property>
+   				<property name="currencyCode" type="string">
+   					<column name="unit_cost_currency"></column>
+   				</property>
+   			</component>
+   			
+   			<bag name="itemInv" table="items" inverse="true" cascade="all" lazy="true" fetch="select">
+   				<key property-ref="itemCode">
+	   				<column name="item_code"></column>
+	   				
+   				</key>
+   				<one-to-many class="com.g128.model.Items"/>
+   			</bag>
+   		</component>
+   		
+   </class>
+   
+   <class name="com.g128.model.Items" table="items">
+   		<id name="id" type="java.lang.Long" column="id">
+   			<generator class="native"></generator>
+   		</id>
+   		
+   		<property name="orderId" type="string">
+   			<column name="order_id"></column>
+   		</property>
+   		
+   		<property name="asin" type="string">
+   			<column name="asin"></column>
+   		</property>
+   		
+   		<property name="number" type="java.lang.Long">
+   			<column name="number"></column>
+   		</property>
+   		
+   		<property name="completion" type="java.lang.Boolean">
+   			<column name="completion"></column>
+   		</property>
+   		
+   		<property name="status" type="string">
+   			<column name="status"></column>
+   		</property>
+   		
+   		<many-to-one name="invItem" class="com.g128.model.Inventory" fetch="select" property-ref="itemCode">
+   			<column name="item_code"></column>
+	   		
+   		</many-to-one>
+   </class>
+</hibernate-mapping>
