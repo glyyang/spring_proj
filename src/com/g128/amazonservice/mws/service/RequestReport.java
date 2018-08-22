@@ -30,7 +30,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.g128.amazonservice.mws.client.*;
 import com.g128.model.*;
-//import com.amazonaws.mws.mock.MarketplaceWebServiceMock;
 
 /**
  *
@@ -76,24 +75,7 @@ public class RequestReport {
         /************************************************************************
          * Uncomment to set the appropriate MWS endpoint.
          ************************************************************************/
-        // US
         config.setServiceURL("https://mws.amazonservices.com/");
-        // UK
-        // config.setServiceURL("https://mws.amazonservices.co.uk/");
-        // Germany
-        // config.setServiceURL("https://mws.amazonservices.de/");
-        // France
-        // config.setServiceURL("https://mws.amazonservices.fr/");
-        // Italy
-        // config.setServiceURL("https://mws.amazonservices.it/");
-        // Japan
-        // config.setServiceURL("https://mws.amazonservices.jp/");
-        // China
-        // config.setServiceURL("https://mws.amazonservices.com.cn/");
-        // Canada
-        // config.setServiceURL("https://mws.amazonservices.ca/");
-        // India
-        // config.setServiceURL("https://mws.amazonservices.in/");
 
         /************************************************************************
          * You can also try advanced configuration options. Available options are:
@@ -121,7 +103,6 @@ public class RequestReport {
          * XML files available under com/amazonaws/mws/mock tree
          *
          ***********************************************************************/
-        // MarketplaceWebService service = new MarketplaceWebServiceMock();
 
         /************************************************************************
          * Setup request parameters and uncomment invoke to try out 
@@ -133,9 +114,6 @@ public class RequestReport {
          * Marketplace Web Service calls.
          ***********************************************************************/
         
-        // marketplaces from which data should be included in the report; look at the
-        // API reference document on the MWS website to see which marketplaces are
-        // included if you do not specify the list yourself
         final IdList marketplaces = new IdList(Arrays.asList(
         		"ATVPDKIKX0DER",
         		"A2EUQ1WTGCTBG2",
@@ -148,7 +126,6 @@ public class RequestReport {
 		        .withReportOptions("ShowSalesChannel=true")
         		.withMWSAuthToken(sellerDevAuthToken);
         
-        // demonstrates how to set the date range
 		DatatypeFactory df = null;
 		try {
 			df = DatatypeFactory.newInstance();
@@ -167,10 +144,6 @@ public class RequestReport {
 		XMLGregorianCalendar endDate = df
 				.newXMLGregorianCalendar(calEnd);
 		request.setEndDate(endDate);
-	    // @TODO: set additional request parameters here
-//		GregorianCalendar gcal = new GregorianCalendar();
-//		gcal.setTimeInMillis(System.currentTimeMillis());
-//		request.setEndDate(df.newXMLGregorianCalendar(gcal));
 		IdList marketplaceIdList = new IdList();
 		List<String> ls = new ArrayList<String>();
 		ls.add("A2EUQ1WTGCTBG2");
@@ -184,75 +157,15 @@ public class RequestReport {
             RequestReportResponse response = service.requestReport(request);
 
             
-//            System.out.println ("RequestReport Action Response");
-//            System.out.println ("=============================================================================");
-//            System.out.println ();
-//
-//            System.out.print("    RequestReportResponse");
-//            System.out.println();
             if (response.isSetRequestReportResult()) {
-//                System.out.print("        RequestReportResult");
-//                System.out.println();
                 RequestReportResult  requestReportResult = response.getRequestReportResult();
                 if (requestReportResult.isSetReportRequestInfo()) {
-//                    System.out.print("            ReportRequestInfo");
-//                    System.out.println();
                     ReportRequestInfo  reportRequestInfo = requestReportResult.getReportRequestInfo();
                     if (reportRequestInfo.isSetReportRequestId()) {
-//                        System.out.print("                ReportRequestId");
-//                        System.out.println();
-//                        System.out.print("                    " + reportRequestInfo.getReportRequestId());
-//                        System.out.println();
                         return reportRequestInfo.getReportRequestId();
                     }
-//                    if (reportRequestInfo.isSetReportType()) {
-//                        System.out.print("                ReportType");
-//                        System.out.println();
-//                        System.out.print("                    " + reportRequestInfo.getReportType());
-//                        System.out.println();
-//                    }
-//                    if (reportRequestInfo.isSetStartDate()) {
-//                        System.out.print("                StartDate");
-//                        System.out.println();
-//                        System.out.print("                    " + reportRequestInfo.getStartDate());
-//                        System.out.println();
-//                    }
-//                    if (reportRequestInfo.isSetEndDate()) {
-//                        System.out.print("                EndDate");
-//                        System.out.println();
-//                        System.out.print("                    " + reportRequestInfo.getEndDate());
-//                        System.out.println();
-//                    }
-//                    if (reportRequestInfo.isSetSubmittedDate()) {
-//                        System.out.print("                SubmittedDate");
-//                        System.out.println();
-//                        System.out.print("                    " + reportRequestInfo.getSubmittedDate());
-//                        System.out.println();
-//                    }
-//                    if (reportRequestInfo.isSetReportProcessingStatus()) {
-//                        System.out.print("                ReportProcessingStatus");
-//                        System.out.println();
-//                        System.out.print("                    " + reportRequestInfo.getReportProcessingStatus());
-//                        System.out.println();
-//                    }
                 } 
             } 
-            if (response.isSetResponseMetadata()) {
-//                System.out.print("        ResponseMetadata");
-//                System.out.println();
-                ResponseMetadata  responseMetadata = response.getResponseMetadata();
-//                if (responseMetadata.isSetRequestId()) {
-//                    System.out.print("            RequestId");
-//                    System.out.println();
-//                    System.out.print("                " + responseMetadata.getRequestId());
-//                    System.out.println();
-//                }
-//            } 
-//            System.out.println();
-//            System.out.println(response.getResponseHeaderMetadata());
-//            System.out.println();
-
-            }
         } catch (MarketplaceWebServiceException ex) {
             
             System.out.println("Caught Exception: " + ex.getMessage());

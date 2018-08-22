@@ -2,20 +2,11 @@ package com.g128.amazonservice.mws.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import com.g128.amazonservice.mws.client.MarketplaceWebService;
 import com.g128.amazonservice.mws.client.MarketplaceWebServiceClient;
 import com.g128.amazonservice.mws.client.MarketplaceWebServiceConfig;
-import com.g128.amazonservice.mws.client.MarketplaceWebServiceException;
-import com.g128.model.Error;
 import com.g128.model.GetReportRequest;
-import com.g128.model.GetReportResponse;
-import com.g128.model.Orders;
-import com.g128.model.ResponseMetadata;
 
 public class GetReport {
     /**
@@ -53,24 +44,7 @@ public class GetReport {
         /************************************************************************
          * Uncomment to set the appropriate MWS endpoint.
          ************************************************************************/
-        // US
         config.setServiceURL("https://mws.amazonservices.com/");
-        // UK
-        // config.setServiceURL("https://mws.amazonservices.co.uk/");
-        // Germany
-        // config.setServiceURL("https://mws.amazonservices.de/");
-        // France
-        // config.setServiceURL("https://mws.amazonservices.fr/");
-        // Italy
-        // config.setServiceURL("https://mws.amazonservices.it/");
-        // Japan
-        // config.setServiceURL("https://mws.amazonservices.jp/");
-        // China
-        // config.setServiceURL("https://mws.amazonservices.com.cn/");
-        // Canada
-        // config.setServiceURL("https://mws.amazonservices.ca/");
-        // India
-        // config.setServiceURL("https://mws.amazonservices.in/");
 
         /************************************************************************
          * You can also try advanced configuration options. Available options are:
@@ -105,92 +79,13 @@ public class GetReport {
         request.setReportId(reportId);
         
 
-        // Note that depending on the type of report being downloaded, a report can reach 
-        // sizes greater than 1GB. For this reason we recommend that you _always_ program to
-        // MWS in a streaming fashion. Otherwise, as your business grows you may silently reach
-        // the in-memory size limit and have to re-work your solution.
-        //
         OutputStream report;
         
-//					try {
-//						report = new FileOutputStream( "report.csv" );
-//						request.setReportOutputStream( report );
-//					} catch (FileNotFoundException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
 					
 		report = new ByteArrayOutputStream();
 		request.setReportOutputStream(report);
-        try {
-        	
-            
-        	GetReportResponse response = service.getReport(request);
-
-
-//            System.out.println ("GetReport Action Response");
-//            System.out.println ("=============================================================================");
-//            System.out.println ();
-//
-//            System.out.print("    GetReportResponse");
-//            System.out.println();
-//            System.out.print("    GetReportResult");
-//            System.out.println();
-//            System.out.print("            MD5Checksum");
-//            System.out.println();
-//            System.out.print("                " + response.getGetReportResult().getMD5Checksum());
-//            System.out.println();
-            if (response.isSetResponseMetadata()) {
-//                System.out.print("        ResponseMetadata");
-//                System.out.println();
-                ResponseMetadata  responseMetadata = response.getResponseMetadata();
-//                if (responseMetadata.isSetRequestId()) {
-//                    System.out.print("            RequestId");
-//                    System.out.println();
-//                    System.out.print("                " + responseMetadata.getRequestId());
-//                    System.out.println();
-//                }
-            } 
-//            System.out.println();
-//
-//            System.out.println("Report");
-//            System.out.println ("=============================================================================");
-//            System.out.println();
-//            System.out.println( request.getReportOutputStream().toString() );
-//            System.out.println();
-//
-//            System.out.println(response.getResponseHeaderMetadata());
-//            System.out.println();
-
-
-        } catch (MarketplaceWebServiceException ex) {
-
-            System.out.println("Caught Exception: " + ex.getMessage());
-            System.out.println("Response Status Code: " + ex.getStatusCode());
-            System.out.println("Error Code: " + ex.getErrorCode());
-            System.out.println("Error Type: " + ex.getErrorType());
-            System.out.println("Request ID: " + ex.getRequestId());
-            System.out.print("XML: " + ex.getXML());
-            System.out.println("ResponseHeaderMetadata: " + ex.getResponseHeaderMetadata());
-        }
         
         String str = request.getReportOutputStream().toString();
-//        System.out.println(str);
-//        String [] strArr =  str.split("\n");
-//        System.out.println(str);
-//        List<List<String>> arl = new ArrayList<>();
-//        
-//        for(int i = 0; i < strArr.length; i++) {
-//        	List<String> arHold = Arrays.asList(strArr[i].split("\\s+"));
-//        	arl.add(arHold);
-//        }
-//        
-//        List<String> label = arl.get(0);
-//        Field fields[] = Error.class.getDeclaredFields();
-//        //for(int i = 0; i < fields.length; i++)  					{	System.out.println("field: " + fields[i].getName());}
-//        for(String sr : label) {
-//        	
-//        }
 		return str;
     }
 }

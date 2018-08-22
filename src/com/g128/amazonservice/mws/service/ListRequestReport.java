@@ -50,24 +50,7 @@ public class ListRequestReport {
         /************************************************************************
          * Uncomment to set the appropriate MWS endpoint.
          ************************************************************************/
-        // US
         config.setServiceURL("https://mws.amazonservices.com/");
-        // UK
-        // config.setServiceURL("https://mws.amazonservices.co.uk/");
-        // Germany
-        // config.setServiceURL("https://mws.amazonservices.de/");
-        // France
-        // config.setServiceURL("https://mws.amazonservices.fr/");
-        // Italy
-        // config.setServiceURL("https://mws.amazonservices.it/");
-        // Japan
-        // config.setServiceURL("https://mws.amazonservices.jp/");
-        // China
-        // config.setServiceURL("https://mws.amazonservices.com.cn/");
-        // Canada
-        // config.setServiceURL("https://mws.amazonservices.ca/");
-        // India
-        // config.setServiceURL("https://mws.amazonservices.in/");
 
         /************************************************************************
          * You can also try advanced configuration options. Available options are:
@@ -95,7 +78,6 @@ public class ListRequestReport {
          * XML files available under com/amazonaws/mws/mock tree
          *
          ***********************************************************************/
-        // MarketplaceWebService service = new MarketplaceWebServiceMock();
 
         /************************************************************************
          * Setup request parameters and uncomment invoke to try out 
@@ -121,112 +103,20 @@ public class ListRequestReport {
         types.add("_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_");
         
         ntpl.setType(types);
-//        IdList idl = new IdList();
-//        List<String> lstr = new ArrayList<String>();
-//        lstr.add("bc110ca7-6525-408c-ace2-74ff00c06d6e");
-//        idl.setId(lstr);
-//        request.setReportRequestIdList(idl);
         request.setReportTypeList(ntpl);
 
-        // @TODO: set request parameters here
         try {
 
             GetReportRequestListResponse response = service.getReportRequestList(request);
-
-
-//            System.out.println ("GetReportRequestList Action Response");
-//            System.out.println ("=============================================================================");
-//            System.out.println ();
-//
-//            System.out.print("    GetReportRequestListResponse");
-//            System.out.println();
             if (response.isSetGetReportRequestListResult()) {
-//                System.out.print("        GetReportRequestListResult");
-//                System.out.println();
                 GetReportRequestListResult  getReportRequestListResult = response.getGetReportRequestListResult();
-//                if (getReportRequestListResult.isSetNextToken()) {
-//                    System.out.print("            NextToken");
-//                    System.out.println();
-//                    System.out.print("                " + getReportRequestListResult.getNextToken());
-//                    System.out.println();
-//                }
-//                if (getReportRequestListResult.isSetHasNext()) {
-//                    System.out.print("            HasNext");
-//                    System.out.println();
-//                    System.out.print("                " + getReportRequestListResult.isHasNext());
-//                    System.out.println();
-//                }
                 java.util.List<ReportRequestInfo> reportRequestInfoList = getReportRequestListResult.getReportRequestInfoList();
                 for (ReportRequestInfo reportRequestInfo : reportRequestInfoList) {
-//                    System.out.print("            ReportRequestInfo");
-//                    System.out.println();
-//                    if (reportRequestInfo.isSetReportRequestId()) {
-//                        System.out.print("                ReportRequestId");
-//                        System.out.println();
-//                        System.out.print("                    " + reportRequestInfo.getReportRequestId());
-//                        System.out.println();
-//                    }
-//                    if (reportRequestInfo.isSetReportType()) {
-//                        System.out.print("                ReportType");
-//                        System.out.println();
-//                        System.out.print("                    " + reportRequestInfo.getReportType());
-//                        System.out.println();
-//                    }
-//                    if (reportRequestInfo.isSetStartDate()) {
-//                        System.out.print("                StartDate");
-//                        System.out.println();
-//                        System.out.print("                    " + reportRequestInfo.getStartDate());
-//                        System.out.println();
-//                    }
-//                    if (reportRequestInfo.isSetEndDate()) {
-//                        System.out.print("                EndDate");
-//                        System.out.println();
-//                        System.out.print("                    " + reportRequestInfo.getEndDate());
-//                        System.out.println();
-//                    }
-//                    if (reportRequestInfo.isSetSubmittedDate()) {
-//                        System.out.print("                SubmittedDate");
-//                        System.out.println();
-//                        System.out.print("                    " + reportRequestInfo.getSubmittedDate());
-//                        System.out.println();
-//                    }
-//                    if (reportRequestInfo.isSetCompletedDate()) {
-//                        System.out.print("                CompletedDate");
-//                        System.out.println();
-//                        System.out.print("                    " + reportRequestInfo.getCompletedDate());
-//                        System.out.println();
-//                    }                    
-//                    if (reportRequestInfo.isSetReportProcessingStatus()) {
-//                        System.out.print("                ReportProcessingStatus");
-//                        System.out.println();
-//                        System.out.print("                    " + reportRequestInfo.getReportProcessingStatus());
-//                        System.out.println();
-//                    }
                     if (requestId.equalsIgnoreCase(reportRequestInfo.getReportRequestId())){
-//	                    System.out.print("                ReportProcessingStatus");
-//	                    System.out.println();
-//	                    System.out.print("                    " + reportRequestInfo.getGeneratedReportId());
-//	                    System.out.println();
 	                    return reportRequestInfo.getGeneratedReportId();
                     }
                 }
             } 
-            if (response.isSetResponseMetadata()) {
-//                System.out.print("        ResponseMetadata");
-//                System.out.println();
-                ResponseMetadata  responseMetadata = response.getResponseMetadata();
-//                if (responseMetadata.isSetRequestId()) {
-//                    System.out.print("            RequestId");
-//                    System.out.println();
-//                    System.out.print("                " + responseMetadata.getRequestId());
-//                    System.out.println();
-//                }
-            } 
-//            System.out.println();
-//            System.out.println(response.getResponseHeaderMetadata());
-//            System.out.println();
-            
-
         } catch (MarketplaceWebServiceException ex) {
 
             System.out.println("Caught Exception: " + ex.getMessage());

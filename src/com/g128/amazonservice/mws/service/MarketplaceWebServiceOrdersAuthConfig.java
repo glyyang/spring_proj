@@ -61,7 +61,6 @@ public class MarketplaceWebServiceOrdersAuthConfig {
         if (client==null) {
             MarketplaceWebServiceOrdersConfig config = new MarketplaceWebServiceOrdersConfig();
             config.setServiceURL(serviceURL);
-            // Set other client connection configurations here.
             client = new MarketplaceWebServiceOrdersAsyncClient(accessKey, secretKey, 
                     appName, appVersion, config, null);
         }

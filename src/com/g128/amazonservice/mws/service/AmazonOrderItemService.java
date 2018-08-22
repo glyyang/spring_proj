@@ -3,9 +3,7 @@ package com.g128.amazonservice.mws.service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.OptionalDouble;
 
-import com.g128.amazonservice.mws.order.MarketplaceWebServiceOrders;
 import com.g128.amazonservice.mws.order.MarketplaceWebServiceOrdersClient;
 import com.g128.amazonservice.mws.order.MarketplaceWebServiceOrdersException;
 import com.g128.dao.StartUpDao;
@@ -47,13 +45,9 @@ public class AmazonOrderItemService {
     	this.count=count;
     }
     public List<OrderItem> fetchOrderItemService(String stat, String sellerId, String mwsAuthToken, String order_id) {
-
-        // Get a client connection.
-        // Make sure you've set the variables in MarketplaceWebServiceOrdersSampleConfig.
     	
         MarketplaceWebServiceOrdersClient client = MarketplaceWebServiceOrdersAuthConfig.getClient();
 
-        // Create a request.
         ListOrderItemsRequest request = new ListOrderItemsRequest();
         request.setSellerId(sellerId);
         request.setMWSAuthToken(mwsAuthToken);
@@ -66,7 +60,7 @@ public class AmazonOrderItemService {
         try {
         	timeFrom = System.currentTimeMillis();
         	t = new Timestamp(timeFrom);
-            // Call the service.
+        	
             ListOrderItemsResponse response = client.listOrderItems(request);
             
             ListOrderItemsByNextTokenRequest req = null;
@@ -76,12 +70,7 @@ public class AmazonOrderItemService {
             while(true){
             	if(req == null && resp == null && nextTok == null){
             		ResponseOrderHeaderMetadata rhmd = response.getResponseHeaderMetadata();
-                    // We recommend logging every the request id and timestamp of every call.
-                    System.out.println("Response:");
-                    System.out.println("RequestId: "+rhmd.getRequestId());
-                    System.out.println("Timestamp: "+rhmd.getTimestamp());
-                    String responseXml = response.toXML();
-                    System.out.println(responseXml);
+                    
             		nextTok = response.getListOrderItemsResult().getNextToken();
 	            	item_list.addAll(response.getListOrderItemsResult().getOrderItems());
 	                
@@ -89,12 +78,6 @@ public class AmazonOrderItemService {
 	                
             	}else{
             		ResponseOrderHeaderMetadata rhmd = resp.getResponseHeaderMetadata();
-                    // We recommend logging every the request id and timestamp of every call.
-                    System.out.println("Response:");
-                    System.out.println("RequestId: "+rhmd.getRequestId());
-                    System.out.println("Timestamp: "+rhmd.getTimestamp());
-                    String responseXml = resp.toXML();
-                    System.out.println(responseXml);
             		nextTok = resp.getListOrderItemsByNextTokenResult().getNextToken();
             		item_list.addAll(resp.getListOrderItemsByNextTokenResult().getOrderItems());
                 	
@@ -104,7 +87,6 @@ public class AmazonOrderItemService {
             	tDiffMill = timeTo - timeFrom;
             	
             	
-            	//OptionalDouble average = (globalMeanDiff.isEmpty())?null:;
             	double avg = (globalMeanDiff.isEmpty())?tDiffMill+0.00:globalMeanDiff.stream().mapToDouble(a -> a).average().getAsDouble();
             	double newDiff = tDiffMill+0.00-avg;
             	if(globalMeanDiff.size() > 10) {
@@ -132,7 +114,6 @@ public class AmazonOrderItemService {
             }
             
         } catch (MarketplaceWebServiceOrdersException ex) {
-            // Exception properties are important for diagnostics.
             System.out.println("Service Exception:");
             ResponseOrderHeaderMetadata rhmd = ex.getResponseHeaderMetadata();
             if(rhmd != null) {
@@ -145,7 +126,6 @@ public class AmazonOrderItemService {
             System.out.println("ErrorType: "+ex.getErrorType());
             throw ex;
         } catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return item_list;
