@@ -434,7 +434,7 @@ public class AnalysisService {
 		
 		JRIEng.parseAndEval("dev.off()");
 		
-		File f = new File("plotResult.png");
+		File f = new File(pathStr);
 		BufferedImage bfimg = ImageIO.read(f);
 		
 //		WritableRaster raster = bfimg.getRaster();

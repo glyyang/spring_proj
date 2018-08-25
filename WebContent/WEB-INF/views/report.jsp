@@ -75,8 +75,8 @@
 		<br>Items&nbspTotal&nbspCount:&nbsp${totalCount }
 		
 		
-		<p><h2>Item total by ASIN purchase summary:</h2></p>
-		<!-- <table id="myTab" data-order='[[ 1, "desc" ]]' class="display">
+		<!-- <p><h2>Item total by ASIN purchase summary:</h2></p>
+		<table id="myTab" data-order='[[ 1, "desc" ]]' class="display">
 			<thead>
 				<tr>
 					
