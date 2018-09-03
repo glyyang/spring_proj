@@ -302,17 +302,17 @@ public class AnalysisService {
 		long start = begin.getTimeInMillis();
 		long last = end.getTimeInMillis();
 		long medVal = last - start;
-		long sector = medVal/24;
+		long sector = medVal/120;
 		if(sector <= 60*60*1000) {
 			sector = 60*60*1000;
-		}else if(sector <= 7*60*60*1000) {
-			sector = 7*60*60*1000;
-		}else if(sector <= 30*60*60*1000) {
-			sector = 30*60*60*1000;
-		}else if(sector <= 90*60*60*1000) {
-			sector = 90*60*60*1000;
+		}else if(sector <= 24*60*60*1000) {
+			sector = 24*60*60*1000;
+		}else if(sector <= 7*24*60*60*1000) {
+			sector = 7*24*60*60*1000;
+		}else if(sector <= 30*24*60*60*1000) {
+			sector = 30*24*60*60*1000;
 		}else {
-			sector = 365*60*60*1000;
+			sector = 365*24*60*60*1000;
 		}
 		
 		long intervalNum = medVal / sector + 1;
@@ -434,6 +434,57 @@ public class AnalysisService {
 		
 		JRIEng.parseAndEval("dev.off()");
 		
+		
+		JRIEng.parseAndEval("regTest1 <- lm(price~poly(as.numeric(strptime(myframe$months, \"%Y-%m-%d %H:%M:%S\")),1), data=myframe)");
+		JRIEng.parseAndEval("regTest2 <- lm(price~poly(as.numeric(strptime(myframe$months, \"%Y-%m-%d %H:%M:%S\")),2), data=myframe)");
+		JRIEng.parseAndEval("regTest3 <- lm(price~poly(as.numeric(strptime(myframe$months, \"%Y-%m-%d %H:%M:%S\")),3), data=myframe)");
+		JRIEng.parseAndEval("regTest4 <- lm(price~poly(as.numeric(strptime(myframe$months, \"%Y-%m-%d %H:%M:%S\")),4), data=myframe)");
+		JRIEng.parseAndEval("regTest5 <- lm(price~poly(as.numeric(strptime(myframe$months, \"%Y-%m-%d %H:%M:%S\")),5), data=myframe)");
+		JRIEng.parseAndEval("regTest6 <- lm(price~poly(as.numeric(strptime(myframe$months, \"%Y-%m-%d %H:%M:%S\")),6), data=myframe)");
+		JRIEng.parseAndEval("regTest7 <- lm(price~poly(as.numeric(strptime(myframe$months, \"%Y-%m-%d %H:%M:%S\")),7), data=myframe)");
+		JRIEng.parseAndEval("regTest8 <- lm(price~poly(as.numeric(strptime(myframe$months, \"%Y-%m-%d %H:%M:%S\")),8), data=myframe)");
+		JRIEng.parseAndEval("regTest9 <- lm(price~poly(as.numeric(strptime(myframe$months, \"%Y-%m-%d %H:%M:%S\")),9), data=myframe)");
+		JRIEng.parseAndEval("regTest10 <- lm(price~poly(as.numeric(strptime(myframe$months, \"%Y-%m-%d %H:%M:%S\")),10), data=myframe)");
+		JRIEng.parseAndEval("regTest11 <- lm(price~poly(as.numeric(strptime(myframe$months, \"%Y-%m-%d %H:%M:%S\")),11), data=myframe)");
+		JRIEng.parseAndEval("regTest12 <- lm(price~poly(as.numeric(strptime(myframe$months, \"%Y-%m-%d %H:%M:%S\")),12), data=myframe)");
+
+		JRIEng.parseAndEval("sink(\"reg1.txt\")");
+		JRIEng.parseAndEval("print(summary(regTest1))");
+		JRIEng.parseAndEval("sink()");
+		JRIEng.parseAndEval("sink(\"reg2.txt\")");
+		JRIEng.parseAndEval("print(summary(regTest2))");
+		JRIEng.parseAndEval("sink()");
+		JRIEng.parseAndEval("sink(\"reg3.txt\")");
+		JRIEng.parseAndEval("print(summary(regTest3))");
+		JRIEng.parseAndEval("sink()");
+		JRIEng.parseAndEval("sink(\"reg4.txt\")");
+		JRIEng.parseAndEval("print(summary(regTest4))");
+		JRIEng.parseAndEval("sink()");
+		JRIEng.parseAndEval("sink(\"reg5.txt\")");
+		JRIEng.parseAndEval("print(summary(regTest5))");
+		JRIEng.parseAndEval("sink()");
+		JRIEng.parseAndEval("sink(\"reg6.txt\")");
+		JRIEng.parseAndEval("print(summary(regTest6))");
+		JRIEng.parseAndEval("sink()");
+		JRIEng.parseAndEval("sink(\"reg7.txt\")");
+		JRIEng.parseAndEval("print(summary(regTest7))");
+		JRIEng.parseAndEval("sink()");
+		JRIEng.parseAndEval("sink(\"reg8.txt\")");
+		JRIEng.parseAndEval("print(summary(regTest8))");
+		JRIEng.parseAndEval("sink()");
+		JRIEng.parseAndEval("sink(\"reg9.txt\")");
+		JRIEng.parseAndEval("print(summary(regTest9))");
+		JRIEng.parseAndEval("sink()");
+		JRIEng.parseAndEval("sink(\"reg10.txt\")");
+		JRIEng.parseAndEval("print(summary(regTest10))");
+		JRIEng.parseAndEval("sink()");
+		JRIEng.parseAndEval("sink(\"reg11.txt\")");
+		JRIEng.parseAndEval("print(summary(regTest11))");
+		JRIEng.parseAndEval("sink()");
+		JRIEng.parseAndEval("sink(\"reg12.txt\")");
+		JRIEng.parseAndEval("print(summary(regTest12))");
+		JRIEng.parseAndEval("sink()");
+		
 		File f = new File(pathStr);
 		BufferedImage bfimg = ImageIO.read(f);
 		
@@ -486,17 +537,17 @@ public class AnalysisService {
 		long start = begin.getTimeInMillis();
 		long last = end.getTimeInMillis();
 		long medVal = last - start;
-		long sector = medVal/24;
+		long sector = medVal/120;
 		if(sector <= 60*60*1000) {
 			sector = 60*60*1000;
-		}else if(sector <= 7*60*60*1000) {
-			sector = 7*60*60*1000;
-		}else if(sector <= 30*60*60*1000) {
-			sector = 30*60*60*1000;
-		}else if(sector <= 90*60*60*1000) {
-			sector = 90*60*60*1000;
+		}else if(sector <= 24*60*60*1000) {
+			sector = 24*60*60*1000;
+		}else if(sector <= 7*24*60*60*1000) {
+			sector = 7*24*60*60*1000;
+		}else if(sector <= 30*24*60*60*1000) {
+			sector = 30*24*60*60*1000;
 		}else {
-			sector = 365*60*60*1000;
+			sector = 365*24*60*60*1000;
 		}
 		
 		long intervalNum = medVal / sector + 1;
